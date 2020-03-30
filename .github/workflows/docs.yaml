@@ -28,6 +28,6 @@ jobs:
         id: lc
         uses: peter-evans/link-checker@v1
         with:
-          args: -r -d site/ -v site/index.html
+          args: -c 20 -x "https://github.com/\S+/\S+/(issues|pull)/[0-9]+" -d ./site -r ./site ./internal/docs *.md
       - name: Fail if there were link errors
         run: exit ${{ steps.lc.outputs.exit_code }}

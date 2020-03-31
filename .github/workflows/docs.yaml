@@ -31,9 +31,15 @@ jobs:
           args: -v -d ./site -r ./site
       - name: Fail if there were link errors
         run: exit ${{ steps.lc.outputs.exit_code }}
-      - name: Link Checker (for normal markdown docs)
+      - name: Link Checker (for top-level markdown docs)
         uses: gaurav-nelson/github-action-markdown-link-check@0.6.0
         with:
           use-verbose-mode: 'yes'
-          folder-path: ['./', './internal/docs/']
+          folder-path: './'
+#          config-file: 'mlc_config.json'
+      - name: Link Checker (for ./internal markdown docs)
+        uses: gaurav-nelson/github-action-markdown-link-check@0.6.0
+        with:
+          use-verbose-mode: 'yes'
+          folder-path: './internal/docs/'
 #          config-file: 'mlc_config.json'

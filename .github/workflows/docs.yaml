@@ -24,10 +24,16 @@ jobs:
           pip install -r docs/requirements.txt
       - name: Build docs for link check
         run: mkdocs build
-      - name: Link Checker
+      - name: Link Checker (generated site)
         id: lc
         uses: peter-evans/link-checker@v1
         with:
-          args: -c 20 -x "https://github.com/\S+/\S+/(issues|pull)/[0-9]+" -d ./site -r ./site ./internal/docs *.md
+          args: -v -d ./site -r ./site
       - name: Fail if there were link errors
         run: exit ${{ steps.lc.outputs.exit_code }}
+      - name: Link Checker (for normal markdown docs)
+      - uses: gaurav-nelson/github-action-markdown-link-check@0.6.0
+        with:
+          use-verbose-mode: 'yes'
+          folder-path: ['./', './internal/docs/']
+#          config-file: 'mlc_config.json'
